@@ -20,13 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
           link.onclick = () => {
               const page = link.dataset.page;
               localStorage.setItem('channel', page);
-              // load_page(page);
               private_room = false;
               document.querySelector('#channelhead').innerHTML = current_channel;
               current_channel = page;
               socket.emit('load channel', {'channel': page, 'user': user});
-              // // Push state to URL.
-              // document.title = channel;
+
               return false;
           };
       });
@@ -89,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // For old chat messages
     socket.on('old chats', oldchats => {
-      // if (oldchats === undefined || oldchats.length == 0) {
       if (typeof oldchats === 'string') {
           localStorage.setItem('channel', oldchats);
           current_channel = oldchats;
@@ -206,9 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
             channel = messagedata["channel"];
             time = messagedata["time"];
             // Insert messages
-            // Add roll result to DOM.
+            // Add message result to DOM.
             const messages = template({'username': username, 'message': message, 'time': time});
-            // messages = "<li> <a href=\"\" class=\"private-link\" data-page=\""+username+"\"><b>"+username+"</b></a><br>" + message + "<p>" + time + "</p><button class=\"hide btn btn-outline-secondary btn-small\">Delete</button></li>";
             document.querySelector('#messages').innerHTML += messages;
         }
 
