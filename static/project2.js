@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
        // If hide button is clicked, delete the post.
         document.addEventListener('click', event => {
             const element = event.target;
-            if (element.className === 'hide') {
+            if (element.className === 'hide btn btn-outline-secondary btn-small') {
                 element.parentElement.style.animationPlayState = 'running';
                 element.parentElement.addEventListener('animationend', () =>  {
                     element.parentElement.remove();

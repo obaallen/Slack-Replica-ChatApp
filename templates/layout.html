@@ -8,11 +8,11 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
         <script id="load_messages" type="text/x-handlebars-template">
-            <li  class="dropdown inline">
+            <li>
                 {% raw -%}
                 <a href="" class="private-link" data-page="{{username}}"><b>{{username}}</b></a><br>{{message}}<p>{{time}}</p>
                 {%- endraw %}
-                <button class="hide btn btn-outline-secondary btn-small right ml-auto bd-highlight">Delete</button>
+                <button class="hide btn btn-outline-secondary btn-small">Delete</button>
             </li>
         </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,11 +20,8 @@
     <body>
       <div class="container-fluid">
         <div class="row headhome shadow-sm p-3 bg-white sticky-top">
-          <div class="col-9">
+          <div class="col-10">
             <strong><span class="center" id="channelhead"></span></strong>
-          </div>
-          <div class="col-1 right">
-            <a href="" id="attach"><img src="{{ url_for('static',filename='images/attach.png') }}" alt="attachments" width="35px"></a>
           </div>
           <div class="col-2 center">
             <a href="{{ url_for('index') }}"><img src="{{ url_for('static',filename='images/AO-logo.png') }}" alt="logo" width="150px"></a>
@@ -32,11 +29,10 @@
         </div>
         <div class="row chathome align-items-stretch">
           <div class="col-2 channelsection overflow-auto shadow-sm bg-channel">
-            <ul class="hash-list d-flex p-2" id="channellist">
+            <ul class="hash-list" id="channellist">
                 {% for channel in channels %}
                     <li><a href="" class="channel-link" data-page="{{ channel }}">{{ channel }}</a></li>
                 {% endfor %}
-              <!-- <li><button id="general-chat" class="btn btn-light">general-chat</button></li> -->
             </ul>
           </div>
           <div class="col-8 msgbg">

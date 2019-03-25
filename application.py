@@ -15,6 +15,7 @@ users = []
 current_channel = "General"
 current_user = ""
 
+#load channel
 @socketio.on("load channel")
 def load(page):
     print (page)
@@ -22,7 +23,6 @@ def load(page):
     username = page['user']
     if pagetoload in channels:
         join_room(pagetoload)
-        print("updated channel to "+ pagetoload)
         emit("old chats", stored_messages[pagetoload], room=pagetoload)
     else:
         join_room(current_channel)
@@ -34,6 +34,7 @@ def index():
         socketio.emit("old chats", stored_messages[current_channel], broadcast=True)
     return render_template("index.html", channels=channels)
 
+# setup private chat
 @socketio.on('private chat')
 def load_private(private_page):
     current_user = private_page["user1"]
@@ -71,9 +72,9 @@ def private_messagefn(messageinput):
     if len(stored_messages[private_channel]) > 100:
         stored_messages[private_channel].pop(0)
 
-    print(stored_messages)
     emit("message data", messagedata, room=room)
 
+# store user information
 @socketio.on("store user")
 def user(userdata):
     name = userdata["username"]
@@ -92,24 +93,22 @@ def user(userdata):
     print("updating"+current_user)
     if not list(filter(lambda user: user['username'] == name, users)):
         users.append({'username': name, 'userid': request.sid})
-        print(users)
     else:
         for user in users:
             for k,v in user.items():
                 if v == 'name':
                     user['userid'] = request.sid
-        print(users)
 
+# create channel
 @socketio.on("create channel")
 def channel(data):
     channel = data["channel"]
     if channel not in channels:
         channels.append(channel)
         stored_messages[channel] = []
-    print(channels)
-    print(stored_messages)
     emit("show channel", channels, broadcast=True)
 
+# Handle messsages
 @socketio.on("message input")
 def messagefn(messageinput):
     day = datetime.date.today().strftime("%A")
@@ -119,7 +118,6 @@ def messagefn(messageinput):
     username = messageinput["user"]
     message = messageinput["message"]
     messagedata = {'username': username, 'message': message, 'time': time, 'channel': room}
-    print(messagedata)
     if room not in stored_messages.keys():
         stored_messages[room] = []
         stored_messages[room].append(messagedata)
@@ -129,5 +127,4 @@ def messagefn(messageinput):
     if len(stored_messages[room]) > 100:
         stored_messages[room].pop(0)
 
-    print(stored_messages)
     emit("message data", messagedata, room=room)

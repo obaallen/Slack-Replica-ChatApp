@@ -137,9 +137,7 @@ ul.messages > li {
 @media (min-width: 650px) {
   .headhome {
     height: 20%;
-    /* font-family: Times, Arial; */
     font-size: 25px;
-    /* padding: 10px; */
     text-align: left;
     font-weight: bold;
     border: 1px; }
